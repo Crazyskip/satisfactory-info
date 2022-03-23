@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  HStack,
   Link,
   IconButton,
   useDisclosure,
@@ -9,6 +8,7 @@ import {
   Stack,
   Text,
   Container,
+  Center,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
@@ -25,11 +25,9 @@ const NAV_LINKS: NavLink[] = [
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const linkColor = useColorModeValue("gray.600", "gray.200");
-  const linkHoverColor = useColorModeValue("gray.800", "white");
 
   return (
-    <Box bg={useColorModeValue("gray.100", "gray.900")}>
+    <Box bg={"orange.400"}>
       <Container
         maxW={[
           "container.md",
@@ -42,36 +40,43 @@ export default function Navbar() {
       >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Flex alignItems={"center"} justifyContent={"space-between"} w="100%">
-            <Text color={linkHoverColor} fontWeight={500} fontSize="xl">
+            <Text color="gray.900" fontWeight={500} fontSize="xl">
               Satisfactory Info
             </Text>
-            <HStack
+            <Flex
               as={"nav"}
-              spacing={4}
               display={{ base: "none", md: "flex" }}
-              color={linkColor}
+              color="gray.900"
               fontWeight={500}
               fontSize="lg"
             >
               {NAV_LINKS.map((link) => (
                 <NextLink key={link.name} href={link.href} passHref>
                   <Link
-                    rounded={"sm"}
-                    px={4}
+                    px={6}
+                    h={16}
+                    m={0}
                     outline="0"
                     _hover={{
                       textDecoration: "none",
-                      color: linkHoverColor,
+                      bg: "gray.700",
+                      color: "white",
                     }}
                   >
-                    {link.name}
+                    <Center h="64px">{link.name}</Center>
                   </Link>
                 </NextLink>
               ))}
-            </HStack>
+            </Flex>
           </Flex>
           <IconButton
             size="md"
+            bg={useColorModeValue("orange.400", "orange.900")}
+            _hover={{
+              textDecoration: "none",
+              bg: "gray.700",
+              color: "white",
+            }}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={"Open Menu"}
             display={{ md: "none" }}
@@ -83,8 +88,7 @@ export default function Navbar() {
           <Box pb={4} display={{ md: "none" }}>
             <Stack
               as={"nav"}
-              spacing={4}
-              color={linkColor}
+              color="gray.900"
               fontWeight={500}
               fontSize="lg"
               border="none"
@@ -93,11 +97,13 @@ export default function Navbar() {
                 <NextLink key={link.name} href={link.href} passHref>
                   <Link
                     rounded={"sm"}
-                    px={2}
+                    py={2}
+                    px={4}
                     onClick={isOpen ? onClose : () => {}}
                     _hover={{
                       textDecoration: "none",
-                      color: linkHoverColor,
+                      bg: "gray.700",
+                      color: "white",
                     }}
                   >
                     {link.name}
