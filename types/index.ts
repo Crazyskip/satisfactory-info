@@ -5,6 +5,7 @@ type Image = {
 };
 
 export type Post = {
+  id: string;
   name: string;
   category: string;
   image: Image;

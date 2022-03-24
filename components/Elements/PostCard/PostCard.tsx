@@ -17,7 +17,7 @@ const PostCard = ({ post }: PostCardProps) => (
     m="2"
     position="relative"
   >
-    <Link href="/">
+    <Link href={`/posts/${post.id}`}>
       <a>
         <Box h="215px" w="380px" position="relative" rounded="lg">
           <Image
