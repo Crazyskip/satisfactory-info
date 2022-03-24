@@ -9,9 +9,13 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-  box-shadow: none !important;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.card-img {
+  border-top-left-radius: 0.45rem;
+  border-top-right-radius: 0.45rem;
 }

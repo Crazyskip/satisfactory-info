@@ -23,7 +23,7 @@ const NAV_LINKS: NavLink[] = [
   { name: "Posts", href: "/posts" },
 ];
 
-export default function Navbar() {
+const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -56,11 +56,12 @@ export default function Navbar() {
                     px={6}
                     h={16}
                     m={0}
-                    outline="0"
                     _hover={{
-                      textDecoration: "none",
                       bg: "gray.700",
                       color: "white",
+                    }}
+                    _focus={{
+                      boxShadow: "none",
                     }}
                   >
                     <Center h="64px">{link.name}</Center>
@@ -101,9 +102,11 @@ export default function Navbar() {
                     px={4}
                     onClick={isOpen ? onClose : () => {}}
                     _hover={{
-                      textDecoration: "none",
                       bg: "gray.700",
                       color: "white",
+                    }}
+                    _focus={{
+                      boxShadow: "none",
                     }}
                   >
                     {link.name}
@@ -116,4 +119,6 @@ export default function Navbar() {
       </Container>
     </Box>
   );
-}
+};
+
+export default Navbar;
