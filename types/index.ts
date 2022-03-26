@@ -12,3 +12,5 @@ export type Post = {
   description?: string;
   createdAt: string;
 };
+
+export type InputEvent = React.ChangeEvent<HTMLInputElement>;
