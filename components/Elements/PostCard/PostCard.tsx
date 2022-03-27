@@ -19,12 +19,7 @@ const PostCard = ({ post }: PostCardProps) => (
   >
     <Link href={`/posts/${post.id}`}>
       <a>
-        <Box
-          h={["180", "215px"]}
-          w={["290px", "380px"]}
-          position="relative"
-          rounded="lg"
-        >
+        <Box h="180px" w={["270px", "290px"]} position="relative" rounded="lg">
           <Image
             className="card-img"
             src={post.image.url}
@@ -33,7 +28,7 @@ const PostCard = ({ post }: PostCardProps) => (
             alt={post.name}
           />
         </Box>
-        <Box p="6" h="110px" bg="gray.700" roundedBottom="lg">
+        <Box p="4" h="100px" w="full" bg="gray.700" roundedBottom="lg">
           <Heading as="h4" fontSize="2xl" fontWeight="semibold" mb="2">
             {post.name}
           </Heading>

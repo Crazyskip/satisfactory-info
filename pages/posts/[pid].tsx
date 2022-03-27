@@ -24,7 +24,6 @@ export const getStaticProps: GetStaticProps = async ({ params }: any) => {
 const Posts: NextPage = ({
   post,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  console.log(post);
   return (
     <>
       <Heading as="h1" size="xl" textAlign="center" my="2">

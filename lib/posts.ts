@@ -13,8 +13,8 @@ export const getPosts = async (): Promise<Post[]> => {
     content_type: "post",
   });
 
-  const items = response.items.map((item: any) => {
-    const newItem: Post = {
+  const posts = response.items.map((item: any) => {
+    const newPost: Post = {
       id: item.sys.id,
       name: item.fields.name,
       category: item.fields.category.fields.name,
@@ -26,11 +26,11 @@ export const getPosts = async (): Promise<Post[]> => {
       createdAt: item.sys.createdAt,
     };
 
-    if (item.fields.description) newItem.description = item.fields.description;
-    return newItem;
+    if (item.fields.description) newPost.description = item.fields.description;
+    return newPost;
   });
 
-  return items;
+  return posts;
 };
 
 // Fetches post by id and parses data
@@ -59,5 +59,59 @@ export const getAllPostIds = async (): Promise<string[]> => {
   const response = await client.getEntries({
     content_type: "post",
   });
+
   return response.items.map((item: any) => item.sys.id);
+};
+
+// Fetches all posts with featured tag
+export const getAllFeaturedPosts = async (): Promise<Post[]> => {
+  const response = await client.getEntries({
+    "metadata.tags.sys.id[all]": "featured",
+  });
+
+  const posts = response.items.map((item: any) => {
+    const newPost: Post = {
+      id: item.sys.id,
+      name: item.fields.name,
+      category: item.fields.category.fields.name,
+      image: {
+        url: `https:${item.fields.image.fields.file.url}`,
+        width: item.fields.image.fields.file.details.image.width,
+        height: item.fields.image.fields.file.details.image.height,
+      },
+      createdAt: item.sys.createdAt,
+    };
+
+    if (item.fields.description) newPost.description = item.fields.description;
+    return newPost;
+  });
+
+  return posts;
+};
+
+export const getAllRecentPosts = async (): Promise<Post[]> => {
+  const response = await client.getEntries({
+    content_type: "post",
+    order: "-sys.createdAt",
+    limit: 6,
+  });
+
+  const posts = response.items.map((item: any) => {
+    const newPost: Post = {
+      id: item.sys.id,
+      name: item.fields.name,
+      category: item.fields.category.fields.name,
+      image: {
+        url: `https:${item.fields.image.fields.file.url}`,
+        width: item.fields.image.fields.file.details.image.width,
+        height: item.fields.image.fields.file.details.image.height,
+      },
+      createdAt: item.sys.createdAt,
+    };
+
+    if (item.fields.description) newPost.description = item.fields.description;
+    return newPost;
+  });
+
+  return posts;
 };
