@@ -7,28 +7,32 @@ const client = contentful.createClient({
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
 });
 
+// Parses data from contentful response into Post format
+const parsePostData = (post: any): Post => {
+  const parsedPost: Post = {
+    id: post.sys.id,
+    name: post.fields.name,
+    category: post.fields.category.fields.name,
+    image: {
+      url: `https:${post.fields.image.fields.file.url}`,
+      width: post.fields.image.fields.file.details.image.width,
+      height: post.fields.image.fields.file.details.image.height,
+    },
+    createdAt: post.sys.createdAt,
+  };
+
+  if (post.fields.description) parsedPost.description = post.fields.description;
+
+  return parsedPost;
+};
+
 // Fetches all posts from contentful space and parses data
 export const getPosts = async (): Promise<Post[]> => {
   const response = await client.getEntries({
     content_type: "post",
   });
 
-  const posts = response.items.map((item: any) => {
-    const newPost: Post = {
-      id: item.sys.id,
-      name: item.fields.name,
-      category: item.fields.category.fields.name,
-      image: {
-        url: `https:${item.fields.image.fields.file.url}`,
-        width: item.fields.image.fields.file.details.image.width,
-        height: item.fields.image.fields.file.details.image.height,
-      },
-      createdAt: item.sys.createdAt,
-    };
-
-    if (item.fields.description) newPost.description = item.fields.description;
-    return newPost;
-  });
+  const posts = response.items.map((item: any) => parsePostData(item));
 
   return posts;
 };
@@ -36,20 +40,8 @@ export const getPosts = async (): Promise<Post[]> => {
 // Fetches post by id and parses data
 export const getPostById = async (id: string): Promise<Post> => {
   const response = await client.getEntry(id);
-  const post: Post = {
-    id: response.sys.id,
-    name: response.fields.name,
-    category: response.fields.category.fields.name,
-    image: {
-      url: `https:${response.fields.image.fields.file.url}`,
-      width: response.fields.image.fields.file.details.image.width,
-      height: response.fields.image.fields.file.details.image.height,
-    },
-    createdAt: response.sys.createdAt,
-  };
 
-  if (response.fields.description)
-    post.description = response.fields.description;
+  const post = parsePostData(response);
 
   return post;
 };
@@ -69,26 +61,12 @@ export const getAllFeaturedPosts = async (): Promise<Post[]> => {
     "metadata.tags.sys.id[all]": "featured",
   });
 
-  const posts = response.items.map((item: any) => {
-    const newPost: Post = {
-      id: item.sys.id,
-      name: item.fields.name,
-      category: item.fields.category.fields.name,
-      image: {
-        url: `https:${item.fields.image.fields.file.url}`,
-        width: item.fields.image.fields.file.details.image.width,
-        height: item.fields.image.fields.file.details.image.height,
-      },
-      createdAt: item.sys.createdAt,
-    };
-
-    if (item.fields.description) newPost.description = item.fields.description;
-    return newPost;
-  });
+  const posts = response.items.map((item: any) => parsePostData(item));
 
   return posts;
 };
 
+// Fetches 6 most recent posts
 export const getAllRecentPosts = async (): Promise<Post[]> => {
   const response = await client.getEntries({
     content_type: "post",
@@ -96,22 +74,7 @@ export const getAllRecentPosts = async (): Promise<Post[]> => {
     limit: 6,
   });
 
-  const posts = response.items.map((item: any) => {
-    const newPost: Post = {
-      id: item.sys.id,
-      name: item.fields.name,
-      category: item.fields.category.fields.name,
-      image: {
-        url: `https:${item.fields.image.fields.file.url}`,
-        width: item.fields.image.fields.file.details.image.width,
-        height: item.fields.image.fields.file.details.image.height,
-      },
-      createdAt: item.sys.createdAt,
-    };
-
-    if (item.fields.description) newPost.description = item.fields.description;
-    return newPost;
-  });
+  const posts = response.items.map((item: any) => parsePostData(item));
 
   return posts;
 };
