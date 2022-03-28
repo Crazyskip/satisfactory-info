@@ -30,13 +30,15 @@ const Posts: NextPage = ({
         Post
       </Heading>
       <Box w={["100%", "100%", "100%", "100%", "90%"]} mx="auto">
-        <Image
-          src={post.image.url}
-          alt={post.name}
-          width={post.image.width}
-          height={post.image.height}
-          layout="responsive"
-        />
+        <Box maxW={(666 / post.image.height) * post.image.width} mx="auto">
+          <Image
+            src={post.image.url}
+            alt={post.name}
+            width={post.image.width}
+            height={post.image.height}
+            layout="responsive"
+          />
+        </Box>
         <Heading as="h2" size="lg" mt="4" mb="2">
           {post.name}
         </Heading>
