@@ -13,6 +13,7 @@ export const getStaticProps: GetStaticProps = async () => {
       featuredPosts,
       recentPosts,
     },
+    revalidate: 60,
   };
 };
 
